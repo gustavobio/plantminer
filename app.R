@@ -13,7 +13,10 @@ ui <- dashboardPage(skin = "blue",
       menuItem("The Plant List", tabName = "tpl", icon = icon("leaf")),
       menuItem("Source code on Github", icon = icon("file-code-o"),
                href = "http://github.com/gustavobio/plantminer/"),
-      sidebarUserPanel("Gustavo Carvalho", image = "https://avatars2.githubusercontent.com/u/30267?v=3&s=460", subtitle = tags$a("Profile on Github", href = "http://www.github.com/gustavobio"))
+      sidebarUserPanel("Gustavo Carvalho", 
+                       image = "https://avatars2.githubusercontent.com/u/30267?v=3&s=460", 
+                       subtitle = tags$a("Profile on Github", href = "http://www.github.com/gustavobio")
+                       )
     )
   ),
   dashboardBody(
@@ -21,43 +24,54 @@ ui <- dashboardPage(skin = "blue",
       tabItem(
         ## Brazilian Flora UI
         tabName = "flora",
-        h4("Brazilian Flora Checklist - ", tags$a("Flora R package", href = "http://github.com/gustavobio/flora"), "frontend"),
+        h4("Brazilian Flora Checklist - ", 
+           tags$a("Flora R package", href = "http://github.com/gustavobio/flora"), 
+           "frontend"
+           ),
         fluidRow(
           column(width = 3,
                  box(title = "1. Name options", width = NULL, collapsible = TRUE,
                      checkboxInput("synonyms", label = "Replace synonyms", value = TRUE),
                      checkboxInput("suggest", label = "Correct misspelled names", value = TRUE)),
                  box(title = "2. Tweak suggestions", width = NULL, collapsible = TRUE, collapsed = TRUE, 
-                     p("How conservative the name guessing should be? Lower values are less conservative and may result in incorrect suggestions."),
+                     p("How conservative the name guessing should be? 
+                       Lower values are less conservative and may result in incorrect suggestions."),
                      sliderInput("distance", label = "", 
                                  min = 0.7, max = 1, value = 0.9, animate = TRUE)), 
                  box(title = "3. Life form & more", width = NULL, collapsible = TRUE, collapsed = TRUE,
-                     p("Checking these boxes will generate duplicated rows if a taxon has multiple habitats, vernacular names, and so on."),
+                     p("Checking these boxes will generate duplicated rows if a taxon
+                       has multiple habitats, vernacular names, and so on."),
                      checkboxInput("life.form", label = "Life form", value = FALSE),
                      checkboxInput("habitat", label = "Habitat", value = FALSE),
                      checkboxInput("states", label = "Occurrence", value = FALSE),
                      checkboxInput("vernacular", label = "Show common names", value = FALSE),
                      checkboxInput("establishment", label = "Establishment", value = FALSE)),
                  box(title = "4. Paste your taxa", width = NULL, solidHeader = TRUE, collapsible = TRUE,
-                     p("One taxon per line. Taxa can be families, genera, or full names, down to varieties and subspecies. Don't include authorities."),
+                     p("One taxon per line. Taxa can be families, genera, or full names, 
+                       down to varieties and subspecies. Don't include authorities."),
                      tags$form(
-                       tags$textarea(id = "taxa", rows= 8 , cols = 21, "Miconia albicans\nMyrcia lingua\nCofea arabica\nFabaceae\nMusa\nTabebuia sp.1"),
+                       tags$textarea(id = "taxa", rows= 8 , cols = 21, 
+                                     "Miconia albicans\nMyrcia lingua\nCofea arabica\nFabaceae\nMusa\nTabebuia sp.1"
+                                     ),
                        tags$br(),
                        submitButton(text = "Process list")))),
           column(width = 9,
                  box(title = "5. Processed taxa", width = NULL,
                      p("Columns might be automatically removed from display to fit the width of your screen.
-                        IDs are links to taxa on the", tags$a("Brazilian Flora website", href = "http://floradobrasil.jbrj.gov.br/jabot/listaBrasil/PrincipalUC/PrincipalUC.do"), 
+                        IDs are links to taxa on the", 
+                       tags$a("Brazilian Flora website", 
+                              href = "http://floradobrasil.jbrj.gov.br/jabot/listaBrasil/PrincipalUC/PrincipalUC.do"
+                              ), 
                        ", which is the source of all data used here. Please cite them accordingly.
                        Threat statuses are determined by", 
                        tags$a("CNC Flora", href = "http://cncflora.jbrj.gov.br"), "and follow the IUCN convention."),
                      DT::dataTableOutput(outputId="contents")),
                  box(title = "6. Download", width = NULL, collapsible = TRUE, collapsed = FALSE,
-#                      p("The files linked below have columns separated by commas, semicolons, or tabulations. 
-#                        All of them can be opened in virtually any spreadsheet and statistical software. 
-#                        The phylomatic taxa file is used with", tags$a("Phylomatic", href = "http://phylodiversity.net/phylocom/"), "to generate a phylogenetic tree. 
-#                        Taxa Plantminer couldn't match against the database are ommited from this file, but not from the others."),
-#                      # fluidRow(
+                     # p("The files linked below have columns separated by commas, semicolons, or tabulations. 
+                     #  All of them can be opened in virtually any spreadsheet and statistical software. 
+                     #  The phylomatic taxa file is used with", tags$a("Phylomatic", href = "http://phylodiversity.net/phylocom/"), "to generate a phylogenetic tree. 
+                     #  Taxa Plantminer couldn't match against the database are ommited from this file, but not from the others."),
+                     #  fluidRow(
                      #  valueBoxOutput("stats.found", width = 2),
                      #  valueBoxOutput("stats.notfound", width = 2),
                      #  valueBoxOutput("stats.synonyms", width = 2),
@@ -82,26 +96,33 @@ ui <- dashboardPage(skin = "blue",
                      checkboxInput("apg", label = "Return APG families", value = FALSE),
                      checkboxInput("get.synonyms.tpl", label = "Return synonyms of all taxa", value = FALSE),
                      checkboxInput("suggest.tpl", label = "Correct misspelled names", value = TRUE),
-                     p("How conservative the name guessing should be? Lower values are less conservative and may result in incorrect suggestions."),
+                     p("How conservative the name guessing should be? Lower values are less conservative 
+                       and may result in incorrect suggestions."),
                      sliderInput("distance.tpl", label = "", 
                                  min = 0.7, max = 1, value = 0.9, animate = TRUE)), 
                  box(title = "2. Paste your species", width = NULL, solidHeader = TRUE, collapsible = TRUE,
                      p("One full name (genus and species) per line. Don't include authorities."),
                      tags$form(
-                       tags$textarea(id = "taxa.tpl", rows= 8 , cols = 21, "Miconia albicans\nMyrcia lingua\nCofea arabica\nFabaceae\nMusa\nTabebuia sp.1"),
+                       tags$textarea(id = "taxa.tpl", rows= 8 , cols = 21, 
+                                     "Miconia albicans\nMyrcia lingua\nCofea arabica\nFabaceae\nMusa\nTabebuia sp.1"
+                                     ),
                        tags$br(),
                        submitButton(text = "Process list")))),
           column(width = 9,
                  box(title = "3. Processed taxa", width = NULL,
                      p("Columns might be automatically removed from display to fit the width of your screen.
-                       IDs are links to taxa on ", tags$a("The Plant List", href = "http://www.theplantlist.org"), ", which is the source of all data used here (v1.1). 
-                       Please cite them accordingly. Follow", tags$a("this link", href = "http://www.theplantlist.org/1.1/about/"), "for further details on the data."),
+                       IDs are links to taxa on ", tags$a("The Plant List", href = "http://www.theplantlist.org"), 
+                       ", which is the source of all data used here (v1.1). 
+                       Please cite them accordingly. Follow", 
+                       tags$a("this link", href = "http://www.theplantlist.org/1.1/about/"), 
+                       "for further details on the data."
+                       ),
                      DT::dataTableOutput(outputId="contents.tpl")),
                  box(title = "4. Download", width = NULL, collapsible = TRUE, collapsed = FALSE,
-#                      p("The files linked below have columns separated by commas, semicolons, or tabulations.
-#                        All of them can be opened in virtually any spreadsheet and statistical software. 
-#                        The phylomatic taxa file is used with", tags$a("Phylomatic", href = "http://phylodiversity.net/phylocom/"), "to generate a phylogenetic tree. 
-#                        Taxa Plantminer couldn't match against the database are ommited from this file, but not from the others."),
+                    #   p("The files linked below have columns separated by commas, semicolons, or tabulations.
+                    #     All of them can be opened in virtually any spreadsheet and statistical software. 
+                    #     The phylomatic taxa file is used with", tags$a("Phylomatic", href = "http://phylodiversity.net/phylocom/"), "to generate a phylogenetic tree. 
+                    #     Taxa Plantminer couldn't match against the database are ommited from this file, but not from the others."),
                     # fluidRow(
                     #   valueBoxOutput("stats.found.tpl", width = 2),
                     #   valueBoxOutput("stats.notfound.tpl", width = 2),
@@ -141,7 +162,8 @@ server <- function(input, output) {
   output$contents <- DT::renderDataTable({
     processed.list <- process.taxa()
     links.flora <- 
-      paste("<a target=\"_blank\" href = \"http://floradobrasil.jbrj.gov.br/jabot/listaBrasil/FichaPublicaTaxonUC/FichaPublicaTaxonUC.do?id=FB", processed.list$id, "\">", processed.list$id,"</a>", sep = "")
+      paste("<a target=\"_blank\" href = \"http://floradobrasil.jbrj.gov.br/jabot/listaBrasil/FichaPublicaTaxonUC/FichaPublicaTaxonUC.do?id=FB", 
+            processed.list$id, "\">", processed.list$id,"</a>", sep = "")
     links.flora <- gsub("FBNA", NA, links.flora)
     out <- data.frame(id = links.flora, processed.list[, -c(1, 3)])
     first.columns <- c("id", "scientific.name", "original.search", "search.str", "taxon.status", "notes", "taxon.rank")
@@ -217,7 +239,8 @@ server <- function(input, output) {
       processed.list.tpl <- processed.list.tpl$synonyms
     }
     links.tpl <- 
-        paste("<a target=\"_blank\" href = \"http://www.theplantlist.org/tpl1.1/record/", processed.list.tpl$id, "\">", processed.list.tpl$id,"</a>", sep = "")
+        paste("<a target=\"_blank\" href = \"http://www.theplantlist.org/tpl1.1/record/", 
+              processed.list.tpl$id, "\">", processed.list.tpl$id,"</a>", sep = "")
     links.tpl <- gsub("\\/NA", NA, links.tpl)
     
     out <- data.frame(id = links.tpl, processed.list.tpl[, -1])
