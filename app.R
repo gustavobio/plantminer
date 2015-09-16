@@ -39,7 +39,7 @@ ui <- dashboardPage(skin = "blue",
                      checkboxInput("vernacular", label = "Show common names", value = FALSE),
                      checkboxInput("establishment", label = "Establishment", value = FALSE)),
                  box(title = "4. Paste your taxa", width = NULL, solidHeader = TRUE, collapsible = TRUE,
-                     p("One taxon per line. Taxa can be families, genera, or full names, down to varieties and subspecies. Don't include authorities. Longer lists usually take a few minutes to process."),
+                     p("One taxon per line. Taxa can be families, genera, or full names, down to varieties and subspecies. Don't include authorities."),
                      tags$form(
                        tags$textarea(id = "taxa", rows= 8 , cols = 21, "Miconia albicans\nMyrcia lingua\nCofea arabica\nFabaceae\nMusa\nTabebuia sp.1"),
                        tags$br(),
@@ -53,11 +53,11 @@ ui <- dashboardPage(skin = "blue",
                        tags$a("CNC Flora", href = "http://cncflora.jbrj.gov.br"), "and follow the IUCN convention."),
                      DT::dataTableOutput(outputId="contents")),
                  box(title = "6. Download", width = NULL, collapsible = TRUE, collapsed = FALSE,
-                     p("The files linked below have columns separated by commas, semicolons, or tabulations. 
-                       All of them can be opened in virtually any spreadsheet and statistical software. 
-                       The phylomatic taxa file is used with", tags$a("Phylomatic", href = "http://phylodiversity.net/phylocom/"), "to generate a phylogenetic tree. 
-                       Taxa Plantminer couldn't match against the database are ommited from this file, but not from the others."),
-                     # fluidRow(
+#                      p("The files linked below have columns separated by commas, semicolons, or tabulations. 
+#                        All of them can be opened in virtually any spreadsheet and statistical software. 
+#                        The phylomatic taxa file is used with", tags$a("Phylomatic", href = "http://phylodiversity.net/phylocom/"), "to generate a phylogenetic tree. 
+#                        Taxa Plantminer couldn't match against the database are ommited from this file, but not from the others."),
+#                      # fluidRow(
                      #  valueBoxOutput("stats.found", width = 2),
                      #  valueBoxOutput("stats.notfound", width = 2),
                      #  valueBoxOutput("stats.synonyms", width = 2),
@@ -86,7 +86,7 @@ ui <- dashboardPage(skin = "blue",
                      sliderInput("distance.tpl", label = "", 
                                  min = 0.7, max = 1, value = 0.9, animate = TRUE)), 
                  box(title = "2. Paste your species", width = NULL, solidHeader = TRUE, collapsible = TRUE,
-                     p("One full name (genus and species) per line. Don't include authorities. Longer lists usually take a few minutes to process."),
+                     p("One full name (genus and species) per line. Don't include authorities."),
                      tags$form(
                        tags$textarea(id = "taxa.tpl", rows= 8 , cols = 21, "Miconia albicans\nMyrcia lingua\nCofea arabica\nFabaceae\nMusa\nTabebuia sp.1"),
                        tags$br(),
@@ -98,10 +98,10 @@ ui <- dashboardPage(skin = "blue",
                        Please cite them accordingly. Follow", tags$a("this link", href = "http://www.theplantlist.org/1.1/about/"), "for further details on the data."),
                      DT::dataTableOutput(outputId="contents.tpl")),
                  box(title = "4. Download", width = NULL, collapsible = TRUE, collapsed = FALSE,
-                     p("The files linked below have columns separated by commas, semicolons, or tabulations.
-                       All of them can be opened in virtually any spreadsheet and statistical software. 
-                       The phylomatic taxa file is used with", tags$a("Phylomatic", href = "http://phylodiversity.net/phylocom/"), "to generate a phylogenetic tree. 
-                       Taxa Plantminer couldn't match against the database are ommited from this file, but not from the others."),
+#                      p("The files linked below have columns separated by commas, semicolons, or tabulations.
+#                        All of them can be opened in virtually any spreadsheet and statistical software. 
+#                        The phylomatic taxa file is used with", tags$a("Phylomatic", href = "http://phylodiversity.net/phylocom/"), "to generate a phylogenetic tree. 
+#                        Taxa Plantminer couldn't match against the database are ommited from this file, but not from the others."),
                     # fluidRow(
                     #   valueBoxOutput("stats.found.tpl", width = 2),
                     #   valueBoxOutput("stats.notfound.tpl", width = 2),
