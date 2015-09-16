@@ -219,7 +219,8 @@ server <- function(input, output) {
     links.tpl <- 
         paste("<a target=\"_blank\" href = \"http://www.theplantlist.org/tpl1.1/record/", processed.list.tpl$id, "\">", processed.list.tpl$id,"</a>", sep = "")
     links.tpl <- gsub("\\/NA", NA, links.tpl)
-    out <- data.frame(id = links.tpl, processed.list.tpl[, -c(1, 3)])
+    
+    out <- data.frame(id = links.tpl, processed.list.tpl[, -1])
     names(out) <- gsub("\\.", " ", names(out))
     output$downloadDataCsvTpl <- downloadHandler(
       filename = "results.csv",
