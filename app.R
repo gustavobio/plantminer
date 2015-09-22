@@ -5,22 +5,36 @@ library(shinydashboard)
 library(DT)
 
 # Paragraphs
-p_suggestion <- p("How conservative the name guessing should be? 
-                       Lower values are less conservative and may result in 
-                  incorrect suggestions.")
-p_lifeform <- p("Checking these boxes will generate duplicated rows if a taxon
-                       has multiple habitats, vernacular names, and so on.")
-p_taxa <- p("Checking these boxes will generate duplicated rows if a taxon
-                       has multiple habitats, vernacular names, and so on.")
-p_results <- p("Columns might be automatically removed from display to fit the width of your screen.
-                        IDs are links to taxa on the", 
-               tags$a("Brazilian Flora website", 
-                      href = "http://floradobrasil.jbrj.gov.br/jabot/listaBrasil/PrincipalUC/PrincipalUC.do"
-               ), 
-               ", which is the source of all data used here. Please cite them accordingly.
-               Threat statuses are determined by", 
-               tags$a("CNC Flora", href = "http://cncflora.jbrj.gov.br"), "and follow the IUCN convention.")
-p_taxa_tpl <- p("One full name (genus and species) per line. Don't include authorities.")
+# Don't think I need to paste text here
+p_suggestion <- p(
+  paste("How conservative the name guessing should be?", 
+        "Lower values are less conservative and may result in", 
+        "incorrect suggestions.")
+)
+p_lifeform <- p(
+  paste("Checking these boxes will generate duplicated rows if a taxon",
+        "has multiple habitats, vernacular names, and so on.")
+)
+p_taxa <- p(
+  paste("Checking these boxes will generate duplicated rows if a taxon",
+        "has multiple habitats, vernacular names, and so on.")
+)
+p_results <- p(
+  "Columns might be automatically removed from display to", 
+  "fit the width of your screen. IDs are links to taxa on the", 
+  tags$a("Brazilian Flora website", 
+         href = "http://floradobrasil.jbrj.gov.br/jabot/listaBrasil/PrincipalUC/PrincipalUC.do"
+  ), 
+  ", which is the source of all data used here. Please cite them accordingly.",
+  "Threat statuses are determined by", 
+  tags$a("CNC Flora", href = "http://cncflora.jbrj.gov.br"), 
+  "and follow the IUCN convention."
+)
+
+p_taxa_tpl <- p(
+  paste("One full name (genus and species) per line.", 
+        "Don't include authorities.")
+)
 p_results_tpl <- p("Columns might be automatically removed from display to fit the width of your screen.
                        IDs are links to taxa on ", tags$a("The Plant List", href = "http://www.theplantlist.org"), 
   ", which is the source of all data used here (v1.1). 
