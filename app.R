@@ -4,22 +4,45 @@ library(tpl)
 library(shinydashboard)
 library(DT)
 
-ui <- dashboardPage(skin = "blue",
-  dashboardHeader(title = "Plantminer"),
-  dashboardSidebar(
-    sidebarMenu(
-      menuItem("Select a database:"),
-      menuItem("Brazilian Flora Checklist", tabName = "flora", icon = icon("leaf")),
-      menuItem("The Plant List", tabName = "tpl", icon = icon("leaf")),
-      menuItem("Source code on Github", icon = icon("file-code-o"),
-               href = "http://github.com/gustavobio/plantminer/"),
-      sidebarUserPanel("Gustavo Carvalho", 
-                       image = "https://avatars2.githubusercontent.com/u/30267?v=3&s=460", 
-                       subtitle = tags$a("Profile on Github", href = "http://www.github.com/gustavobio")
-                       )
+# Paragraphs
+p_suggestion <- p("How conservative the name guessing should be? 
+                       Lower values are less conservative and may result in 
+                  incorrect suggestions.")
+p_lifeform <- p("Checking these boxes will generate duplicated rows if a taxon
+                       has multiple habitats, vernacular names, and so on.")
+p_taxa <- p("Checking these boxes will generate duplicated rows if a taxon
+                       has multiple habitats, vernacular names, and so on.")
+p_results <- p("Columns might be automatically removed from display to fit the width of your screen.
+                        IDs are links to taxa on the", 
+               tags$a("Brazilian Flora website", 
+                      href = "http://floradobrasil.jbrj.gov.br/jabot/listaBrasil/PrincipalUC/PrincipalUC.do"
+               ), 
+               ", which is the source of all data used here. Please cite them accordingly.
+               Threat statuses are determined by", 
+               tags$a("CNC Flora", href = "http://cncflora.jbrj.gov.br"), "and follow the IUCN convention.")
+p_taxa_tpl <- p("One full name (genus and species) per line. Don't include authorities.")
+p_results_tpl <- p("Columns might be automatically removed from display to fit the width of your screen.
+                       IDs are links to taxa on ", tags$a("The Plant List", href = "http://www.theplantlist.org"), 
+  ", which is the source of all data used here (v1.1). 
+  Please cite them accordingly. Follow", 
+  tags$a("this link", href = "http://www.theplantlist.org/1.1/about/"), 
+  "for further details on the data."
+)
+header <- dashboardHeader(title = "Plantminer")
+sidebar <- dashboardSidebar(
+  sidebarMenu(
+    menuItem("Select a database:"),
+    menuItem("Brazilian Flora Checklist", tabName = "flora", icon = icon("leaf")),
+    menuItem("The Plant List", tabName = "tpl", icon = icon("leaf")),
+    menuItem("Source code on Github", icon = icon("file-code-o"),
+             href = "http://github.com/gustavobio/plantminer/"),
+    sidebarUserPanel("Gustavo Carvalho", 
+                     image = "https://avatars2.githubusercontent.com/u/30267?v=3&s=460", 
+                     subtitle = tags$a("Profile on Github", href = "http://www.github.com/gustavobio")
     )
-  ),
-  dashboardBody(
+  )
+)
+body <- dashboardBody(
     tabItems(
       tabItem(
         ## Brazilian Flora UI
@@ -34,21 +57,18 @@ ui <- dashboardPage(skin = "blue",
                      checkboxInput("synonyms", label = "Replace synonyms", value = TRUE),
                      checkboxInput("suggest", label = "Correct misspelled names", value = TRUE)),
                  box(title = "2. Tweak suggestions", width = NULL, collapsible = TRUE, collapsed = TRUE, 
-                     p("How conservative the name guessing should be? 
-                       Lower values are less conservative and may result in incorrect suggestions."),
+                     p_suggestion,
                      sliderInput("distance", label = "", 
                                  min = 0.7, max = 1, value = 0.9, animate = TRUE)), 
                  box(title = "3. Life form & more", width = NULL, collapsible = TRUE, collapsed = TRUE,
-                     p("Checking these boxes will generate duplicated rows if a taxon
-                       has multiple habitats, vernacular names, and so on."),
+                     p_lifeform,
                      checkboxInput("life.form", label = "Life form", value = FALSE),
                      checkboxInput("habitat", label = "Habitat", value = FALSE),
                      checkboxInput("states", label = "Occurrence", value = FALSE),
                      checkboxInput("vernacular", label = "Show common names", value = FALSE),
                      checkboxInput("establishment", label = "Establishment", value = FALSE)),
                  box(title = "4. Paste your taxa", width = NULL, solidHeader = TRUE, collapsible = TRUE,
-                     p("One taxon per line. Taxa can be families, genera, or full names, 
-                       down to varieties and subspecies. Don't include authorities."),
+                     p_taxa,
                      tags$form(
                        tags$textarea(id = "taxa", rows= 8 , cols = 21, 
                                      "Miconia albicans\nMyrcia lingua\nCofea arabica\nFabaceae\nMusa\nTabebuia sp.1"
@@ -57,14 +77,7 @@ ui <- dashboardPage(skin = "blue",
                        submitButton(text = "Process list")))),
           column(width = 9,
                  box(title = "5. Processed taxa", width = NULL,
-                     p("Columns might be automatically removed from display to fit the width of your screen.
-                        IDs are links to taxa on the", 
-                       tags$a("Brazilian Flora website", 
-                              href = "http://floradobrasil.jbrj.gov.br/jabot/listaBrasil/PrincipalUC/PrincipalUC.do"
-                              ), 
-                       ", which is the source of all data used here. Please cite them accordingly.
-                       Threat statuses are determined by", 
-                       tags$a("CNC Flora", href = "http://cncflora.jbrj.gov.br"), "and follow the IUCN convention."),
+                     p_results,
                      DT::dataTableOutput(outputId="contents")),
                  box(title = "6. Download", width = NULL, collapsible = TRUE, collapsed = FALSE,
                      # p("The files linked below have columns separated by commas, semicolons, or tabulations. 
@@ -96,12 +109,11 @@ ui <- dashboardPage(skin = "blue",
                      checkboxInput("apg", label = "Return APG families", value = FALSE),
                      checkboxInput("get.synonyms.tpl", label = "Return synonyms of all taxa", value = FALSE),
                      checkboxInput("suggest.tpl", label = "Correct misspelled names", value = TRUE),
-                     p("How conservative the name guessing should be? Lower values are less conservative 
-                       and may result in incorrect suggestions."),
+                     p_suggestion,
                      sliderInput("distance.tpl", label = "", 
                                  min = 0.7, max = 1, value = 0.9, animate = TRUE)), 
                  box(title = "2. Paste your species", width = NULL, solidHeader = TRUE, collapsible = TRUE,
-                     p("One full name (genus and species) per line. Don't include authorities."),
+                     p_taxa_tpl,
                      tags$form(
                        tags$textarea(id = "taxa.tpl", rows= 8 , cols = 21, 
                                      "Miconia albicans\nMyrcia lingua\nCofea arabica\nFabaceae\nMusa\nTabebuia sp.1"
@@ -110,13 +122,7 @@ ui <- dashboardPage(skin = "blue",
                        submitButton(text = "Process list")))),
           column(width = 9,
                  box(title = "3. Processed taxa", width = NULL,
-                     p("Columns might be automatically removed from display to fit the width of your screen.
-                       IDs are links to taxa on ", tags$a("The Plant List", href = "http://www.theplantlist.org"), 
-                       ", which is the source of all data used here (v1.1). 
-                       Please cite them accordingly. Follow", 
-                       tags$a("this link", href = "http://www.theplantlist.org/1.1/about/"), 
-                       "for further details on the data."
-                       ),
+                     p_results_tpl,
                      DT::dataTableOutput(outputId="contents.tpl")),
                  box(title = "4. Download", width = NULL, collapsible = TRUE, collapsed = FALSE,
                     #   p("The files linked below have columns separated by commas, semicolons, or tabulations.
@@ -140,7 +146,7 @@ ui <- dashboardPage(skin = "blue",
       )
     )
   )
-)
+ui <- dashboardPage(skin = "blue", header, sidebar, body)
 server <- function(input, output) {
   ##
   ## Brazilian flora server side
