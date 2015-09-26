@@ -188,8 +188,9 @@ this will not match the original search."),
         p("Notes about a taxon. Empty string if there is nothing to report. Otherwise,
           possible values are as follows:"),
         tags$ul(
-          tags$li("`was misspelled`"),
-          tags$li("`replaced synonym`"),
+          tags$li("`not found`, if a name was not found."),
+          tags$li("`was misspelled`, if a name was misspelled."),
+          tags$li("`replaced synonym`, if a name was a synonym and was replaced by an accepted name."),
           tags$li("`check no accepted name` if a synonym is not linked to a accepted name."),
           tags$li("`check no accepted +1 synonyms` if a supplied taxon matches several names listed
                   as synonyms and none are linked to an accepted name."),
@@ -252,6 +253,7 @@ this will not match the original search."),
         h4("note"),
         p("Notes about the taxon matching. Possible values are:"),
         tags$ul(
+          tags$li("`not found`, if a name was not found."),
           tags$li("`was misspelled`, if a name was misspelled."),
           tags$li("`replaced synonym`, if a name is listed as a synonym and an accepted name was found.")
         ),
