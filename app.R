@@ -48,6 +48,7 @@ sidebar <- dashboardSidebar(
     menuItem("Select a database:"),
     menuItem("Brazilian Flora Checklist", tabName = "flora", icon = icon("leaf")),
     menuItem("The Plant List", tabName = "tpl", icon = icon("leaf")),
+    menuItem("API & About the data", tabName = "data", icon = icon("question")),
     menuItem("Source code on Github", icon = icon("file-code-o"),
              href = "http://github.com/gustavobio/plantminer/"),
     sidebarUserPanel("Gustavo Carvalho", 
@@ -157,9 +158,109 @@ body <- dashboardBody(
                  )
           )
         )
-      )
+      ),
+      tabItem(
+        tabName = "data",
+        h2("Brazilian Flora Checklist"),
+        h3("API call"),
+        p("Use the /flora method to GET request a taxon using the `taxon` querystring:"),
+        tags$a("http://www.plantminer.com/flora?taxon=Coffea%20arabica",
+               href = "http://www.plantminer.com/flora?taxon=Coffea%20arabica"),
+        p("The response is always a json object, even if a match couldn't be made."),
+        h3("Fields"),
+        h4("id"),
+        p("Taxon id in the Brazilian Flora Checklist."),
+        h4("scientific name"),
+        p("Full name with authors"),
+        h4("original search"),
+        p("Character string supplied by the user and matched against the database."),
+        h4("search str"),
+        p("Character string used internally to query the database.
+          If the user entered a misspelled name and a suggestion could be made, 
+this will not match the original search."),
+        h4("taxon status"),
+        p("Taxonomical status. Possible values are as follows:"),
+        tags$ul(
+          tags$li("accepted"),
+          tags$li("synonym")
+        ),
+        h4("notes"),
+        p("Notes about a taxon. Empty string if there is nothing to report. Otherwise,
+          possible values are as follows:"),
+        tags$ul(
+          tags$li("`was misspelled`"),
+          tags$li("`replaced synonym`"),
+          tags$li("`check no accepted name` if a synonym is not linked to a accepted name."),
+          tags$li("`check no accepted +1 synonyms` if a supplied taxon matches several names listed
+                  as synonyms and none are linked to an accepted name."),
+          tags$li("`check +1 accepted` if a synonym is linked to two or more accepted names."),
+          tags$li("`check +1 entries` if a supplied taxon matches several entries in the database."),
+          tags$li("`check undefined status` if a name is neither accepted or a synonym according to the data.")
+        ),
+        p("Multiple notes are separated with a `|`"),
+        h4("taxon rank"),
+        p("Taxonomical rank of the user supplied taxon. Possible values are:"),
+        tags$ul(
+          tags$li("`family`"),
+          tags$li("`genus`"),
+          tags$li("`species")
+        ),
+        h4("family"),
+        p("Taxon family according to the Brazilian Flora Checklist"),
+        h4("threat status"),
+        p("Taxon threat status according to CNC Flora 2013. Statuses follow the IUCN convention."),
+        h2("The Plant List"),
+        h3("API call"),
+        p("Use the /tpl method to GET request a taxon using the `taxon` querystring:"),
+        tags$a("http://www.plantminer.com/tpl?taxon=Coffea%20arabica",
+               href = "http://www.plantminer.com/tpl?taxon=Coffea%20arabica"),
+        p("The response is always a json object, even if a match couldn't be made."),
+        h3("Fields"),
+        h4("id"),
+        p("Taxon id in The Plant List"),
+        h4("family"),
+        p("Taxon family according to The Plant List. There is an option to return APG families instead."),
+        h4("genus"),
+        p("Taxon genus"),
+        h4("species"),
+        p("Specific epiteth"),
+        h4("infraspecific rank"),
+        p("Taxon infraspecific rank"),
+        h4("infraspecific epithet"),
+        p("Taxon infraspecific epithet"),
+        h4("Authorship"),
+        p("Taxon author(s)"),
+        h4("taxonomic status in tpl"),
+        p("Taxon status according to The Plant List. Possible values are:"),
+        tags$ul(
+          tags$li("`Accepted`"),
+          tags$li("`Synonym`")
+        ),
+        h4("confidence level"),
+        p("Status confidence level. Possible values are:"),
+        tags$ul(
+          tags$li("`H`: high confidence"),
+          tags$li("`M`: medium confidence"),
+          tags$li("`L`: low confidence")
+        ),
+        h4("source"),
+        p("Source of the data. Please check their website for a list of all possible sources and how to cite them."),
+        h4("accepted id"),
+        p("id of the accepted name of a taxon in The Plant List. Return only if the user chooses not to automatically replace synonyms."),
+        h4("name"),
+        p("Taxon name without authors."),
+        h4("note"),
+        p("Notes about the taxon matching. Possible values are:"),
+        tags$ul(
+          tags$li("`was misspelled`, if a name was misspelled."),
+          tags$li("`replaced synonym`, if a name is listed as a synonym and an accepted name was found.")
+        ),
+        p("Multiple notes are separated with a `|`"),
+        h4("original search"),
+        p("The user supplied character string.")
     )
   )
+)
 ui <- dashboardPage(skin = "blue", header, sidebar, body)
 server <- function(input, output) {
   ##
