@@ -15,3 +15,13 @@ get.flora <- function(taxon) {
   results[is.na(results)] <- ""
   results
 }
+
+#' @get /old
+#' @html
+get.old <- function(taxon) {
+  taxon <- trim(gsub("/", " ", taxon))
+  results <- tpl.get(taxon)
+  results <- results[c("family", "genus", "species", "authorship", "source",
+                       "id", "taxonomic.status.in.tpl", "confidence.level", "name", "source")]
+  paste(results, collapse = "|")
+}
