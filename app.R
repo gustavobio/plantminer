@@ -22,13 +22,13 @@ p_taxa <- p(
 p_results <- p(
   "Columns might be automatically removed from display to", 
   "fit the width of your screen. IDs are links to taxa on the", 
-  tags$a("Brazilian Flora website", 
+  tags$a("Brazilian Flora 2020 website", 
          href = "http://floradobrasil.jbrj.gov.br/jabot/listaBrasil/PrincipalUC/PrincipalUC.do"
   ), 
   ", which is the source of all data used here. Please cite them accordingly.",
   "Threat statuses are determined by", 
   tags$a("CNC Flora", href = "http://cncflora.jbrj.gov.br"), 
-  "and follow the IUCN convention."
+  "and follow the IUCN convention.", tags$strong("Dataset last updated on 21st Feb 2016")
 )
 
 p_taxa_tpl <- p(
@@ -46,7 +46,7 @@ header <- dashboardHeader(title = "Plantminer")
 sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("Select a database:"),
-    menuItem("Brazilian Flora Checklist", tabName = "flora", icon = icon("leaf")),
+    menuItem("Brazilian Flora 2020", tabName = "flora", icon = icon("leaf")),
     menuItem("The Plant List", tabName = "tpl", icon = icon("leaf")),
     menuItem("API & About the data", tabName = "data", icon = icon("question")),
     menuItem("Source code on Github", icon = icon("file-code-o"),
@@ -62,7 +62,7 @@ body <- dashboardBody(
       tabItem(
         ## Brazilian Flora UI
         tabName = "flora",
-        h4("Brazilian Flora Checklist - ", 
+        h4("Brazilian Flora 2020 - ", 
            tags$a("Flora R package", href = "http://github.com/gustavobio/flora"), 
            "frontend"
            ),
