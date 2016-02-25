@@ -67,7 +67,7 @@ body <- dashboardBody(
                  box(title = "1. Name options", width = NULL, collapsible = TRUE,
                      checkboxInput("synonyms", label = "Replace synonyms", value = TRUE),
                      checkboxInput("suggest", label = "Correct misspelled names", value = TRUE),
-                     checkboxInput("remove.authors", label = "Remove authors (slow)")),
+                     checkboxInput("remove.authors", label = "Remove authors (slow)", value = FALSE)),
                  box(title = "2. Tweak suggestions", width = NULL, collapsible = TRUE, collapsed = TRUE, 
                      p_suggestion,
                      sliderInput("distance", label = "", 
@@ -275,7 +275,8 @@ server <- function(input, output) {
                                vernacular = input$vernacular, 
                                states = input$states, 
                                establishment = input$establishment,
-                               suggestion.distance = input$distance)
+                               suggestion.distance = input$distance,
+                               parse = remove.authors)
     processed.list
   })
   output$contents <- DT::renderDataTable({
