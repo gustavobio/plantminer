@@ -67,19 +67,18 @@ body <- dashboardBody(
                  box(title = "1. Name options", width = NULL, collapsible = TRUE,
                      checkboxInput("synonyms", label = "Replace synonyms", value = TRUE),
                      checkboxInput("suggest", label = "Correct misspelled names", value = TRUE),
-                     checkboxInput("parse", label = "Remove authors (slow)", value = FALSE)),
-                 box(title = "2. Tweak suggestions", width = NULL, collapsible = TRUE, collapsed = TRUE, 
+                     checkboxInput("parse", label = "Remove authors (slow)", value = FALSE),
                      p_suggestion,
                      sliderInput("distance", label = "", 
                                  min = 0.7, max = 1, value = 0.9, animate = TRUE)), 
-                 box(title = "3. Life form & more", width = NULL, collapsible = TRUE, collapsed = TRUE,
+                 box(title = "2. Life form & more", width = NULL, collapsible = TRUE, collapsed = TRUE,
                      p_lifeform,
                      checkboxInput("life.form", label = "Life form", value = FALSE),
                      checkboxInput("habitat", label = "Habitat", value = FALSE),
                      checkboxInput("states", label = "Occurrence", value = FALSE),
                      checkboxInput("vernacular", label = "Show common names", value = FALSE),
                      checkboxInput("establishment", label = "Establishment", value = FALSE)),
-                 box(title = "4. Paste your taxa", width = NULL, solidHeader = TRUE, collapsible = TRUE,
+                 box(title = "3. Paste your taxa", width = NULL, solidHeader = TRUE, collapsible = TRUE,
                      tags$form(
                        tags$textarea(id = "taxa", rows= 8 , cols = 21, 
                                      "Miconia albicans\nMyrcia lingua\nCofea arabica\nFabaceae\nMusa\nTabebuia sp.1"
@@ -87,10 +86,10 @@ body <- dashboardBody(
                        tags$br(),
                        submitButton(text = "Process list")))),
           column(width = 9,
-                 box(title = "5. Processed taxa", width = NULL,
+                 box(title = "4. Processed taxa", width = NULL,
                      p_results,
                      DT::dataTableOutput(outputId="contents")),
-                 box(title = "6. Download", width = NULL, collapsible = TRUE, collapsed = FALSE,
+                 box(title = "5. Download", width = NULL, collapsible = TRUE, collapsed = FALSE,
                      # p("The files linked below have columns separated by commas, semicolons, or tabulations. 
                      #  All of them can be opened in virtually any spreadsheet and statistical software. 
                      #  The phylomatic taxa file is used with", tags$a("Phylomatic", href = "http://phylodiversity.net/phylocom/"), "to generate a phylogenetic tree. 
