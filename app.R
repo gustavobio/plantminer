@@ -15,10 +15,6 @@ p_lifeform <- p(
   paste("Checking these boxes will generate duplicated rows if a taxon",
         "has multiple habitats, vernacular names, and so on.")
 )
-p_taxa <- p(
-  paste("Checking these boxes will generate duplicated rows if a taxon",
-        "has multiple habitats, vernacular names, and so on.")
-)
 p_results <- p(
   "Columns might be automatically removed from display to", 
   "fit the width of your screen. IDs are links to taxa on the", 
@@ -70,7 +66,8 @@ body <- dashboardBody(
           column(width = 3,
                  box(title = "1. Name options", width = NULL, collapsible = TRUE,
                      checkboxInput("synonyms", label = "Replace synonyms", value = TRUE),
-                     checkboxInput("suggest", label = "Correct misspelled names", value = TRUE)),
+                     checkboxInput("suggest", label = "Correct misspelled names", value = TRUE),
+                     checkboxInput("remove.authors", label = "Remove authors (slow)")),
                  box(title = "2. Tweak suggestions", width = NULL, collapsible = TRUE, collapsed = TRUE, 
                      p_suggestion,
                      sliderInput("distance", label = "", 
@@ -83,7 +80,6 @@ body <- dashboardBody(
                      checkboxInput("vernacular", label = "Show common names", value = FALSE),
                      checkboxInput("establishment", label = "Establishment", value = FALSE)),
                  box(title = "4. Paste your taxa", width = NULL, solidHeader = TRUE, collapsible = TRUE,
-                     p_taxa,
                      tags$form(
                        tags$textarea(id = "taxa", rows= 8 , cols = 21, 
                                      "Miconia albicans\nMyrcia lingua\nCofea arabica\nFabaceae\nMusa\nTabebuia sp.1"
