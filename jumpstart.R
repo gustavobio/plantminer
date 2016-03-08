@@ -1,3 +1,3 @@
 require("plumber")
-r <- plumb("/srv/shiny/plantminer/services.R")
+r <- plumb("/srv/shiny-server/plantminer/services.R")
 r$run(port = 8000)
