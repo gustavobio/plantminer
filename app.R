@@ -12,8 +12,7 @@ p_suggestion <- p(
         "incorrect suggestions.")
 )
 p_lifeform <- p(
-  paste("Checking these boxes will generate duplicated rows if a taxon",
-        "has multiple habitats, vernacular names, and so on.")
+ 
 )
 p_results <- p(
   "Columns might be automatically removed from display to", 
@@ -38,6 +37,7 @@ p_results_tpl <- p("Columns might be automatically removed from display to fit t
   tags$a("this link", href = "http://www.theplantlist.org/1.1/about/"), 
   "for further details on the data."
 )
+p_lab <- p(tags$strong("Gustavo Carvalho - Laboratório de Fenologia, Unesp Rio Claro, Brasil"), tags$br(), "gustavo.bio@gmail.com", align = "center")
 header <- dashboardHeader(title = "Plantminer")
 sidebar <- dashboardSidebar(
   sidebarMenu(
@@ -47,7 +47,7 @@ sidebar <- dashboardSidebar(
     menuItem("API & About the data", tabName = "data", icon = icon("question")),
     menuItem("Source code on Github", icon = icon("file-code-o"),
              href = "http://github.com/gustavobio/plantminer/"),
-    sidebarUserPanel("Gustavo Carvalho", 
+    sidebarUserPanel("Gustavo Carvalho",
                      image = "https://avatars2.githubusercontent.com/u/30267?v=3&s=460", 
                      subtitle = tags$a("Profile on Github", href = "http://www.github.com/gustavobio")
     )
@@ -105,7 +105,8 @@ body <- dashboardBody(
                        downloadButton('downloadDataCsv2', 'Semicolon-delimited'),
                        downloadButton('downloadDataTab', 'Tab-delimited'),
                        downloadButton('downloadDataPhylomatic', 'Phylomatic taxa')
-                     )
+                     ),
+                 p_lab
                  )
         )),
       ## The Plant List UI
@@ -150,18 +151,19 @@ body <- dashboardBody(
                      downloadButton('downloadDataCsv2Tpl', 'Semicolon-delimited'),
                      downloadButton('downloadDataTabTpl', 'Tab-delimited'),
                      downloadButton('downloadDataPhylomaticTpl', 'Phylomatic taxa')
-                 )
+                 ),
+                 p_lab
           )
         )
       ),
       tabItem(
         tabName = "data",
-        h2("Brazilian Flora Checklist"),
+        h2("Brazilian Flora 2020 Checklist"),
         h3("API call"),
         p("Use the /flora method to GET request a taxon using the `taxon` querystring:"),
         tags$a("http://www.plantminer.com/flora?taxon=Coffea%20arabica",
                href = "http://www.plantminer.com/flora?taxon=Coffea%20arabica"),
-        p("The response is always a json object, even if a match couldn't be made."),
+        p("The response is always a json object, even if there is no match."),
         h3("Fields"),
         h4("id"),
         p("Taxon id in the Brazilian Flora Checklist."),
@@ -281,7 +283,7 @@ server <- function(input, output) {
   output$contents <- DT::renderDataTable({
     processed.list <- process.taxa()
     links.flora <- 
-      paste("<a target=\"_blank\" href = \"http://floradobrasil.jbrj.gov.br/jabot/listaBrasil/FichaPublicaTaxonUC/FichaPublicaTaxonUC.do?id=FB", 
+      paste("<a target=\"_blank\" href = \"http://floradobrasil.jbrj.gov.br/reflora/listaBrasil/FichaPublicaTaxonUC/FichaPublicaTaxonUC.do?id=FB", 
             processed.list$id, "\">", processed.list$id,"</a>", sep = "")
     links.flora <- gsub("FBNA", NA, links.flora)
     out <- data.frame(id = links.flora, processed.list[, -c(1, 3)])
