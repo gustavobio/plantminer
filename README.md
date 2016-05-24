@@ -10,7 +10,7 @@ install.packages("devtools")
 devtools::install_github("gustavobio/tpldata")
 devtools::install_github("gustavobio/tpl")
 devtools::install_github("gustavobio/flora")
-install.packages("shiny"
+install.packages("shiny")
 install.packages("DT")
 install.packages("shinydashboard")
 library("shiny"
