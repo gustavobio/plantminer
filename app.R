@@ -71,14 +71,15 @@ body <- dashboardBody(
                      p_suggestion,
                      sliderInput("distance", label = "", 
                                  min = 0.7, max = 1, value = 0.9, animate = TRUE)), 
-                 box(title = "2. Life form & more", width = NULL, collapsible = TRUE, collapsed = TRUE,
+                 box(title = "2. Life form & more", width = NULL, collapsible = TRUE, collapsed = FALSE,
                      p_lifeform,
                      checkboxInput("life.form", label = "Life form", value = FALSE),
                      checkboxInput("habitat", label = "Habitat", value = FALSE),
                      checkboxInput("states", label = "Occurrence", value = FALSE),
                      checkboxInput("vernacular", label = "Show common names", value = FALSE),
-                     checkboxInput("establishment", label = "Establishment", value = FALSE)),
-                 box(title = "3. Paste your taxa", width = NULL, solidHeader = TRUE, collapsible = TRUE,
+                     checkboxInput("establishment", label = "Establishment", value = FALSE),
+                     checkboxInput("domain", label = "Domain", value = FALSE)),
+                 box(title = "3. Paste your taxa without authors (or select 'Remove authors')", width = NULL, solidHeader = TRUE, collapsible = TRUE,
                      tags$form(
                        tags$textarea(id = "taxa", rows= 8 , cols = 21, 
                                      "Miconia albicans\nMyrcia lingua\nCofea arabica\nFabaceae\nMusa\nTabebuia sp.1"
@@ -120,10 +121,11 @@ body <- dashboardBody(
                      checkboxInput("apg", label = "Return APG families", value = FALSE),
                      checkboxInput("get.synonyms.tpl", label = "Return synonyms of all taxa", value = FALSE),
                      checkboxInput("suggest.tpl", label = "Correct misspelled names", value = TRUE),
+                     checkboxInput("parse.tpl", label = "Remove authors (slow)", value = FALSE),
                      p_suggestion,
                      sliderInput("distance.tpl", label = "", 
                                  min = 0.7, max = 1, value = 0.9, animate = TRUE)), 
-                 box(title = "2. Paste your species", width = NULL, solidHeader = TRUE, collapsible = TRUE,
+                 box(title = "2. Paste your taxa without authors (or select 'Remove authors').", width = NULL, solidHeader = TRUE, collapsible = TRUE,
                      p_taxa_tpl,
                      tags$form(
                        tags$textarea(id = "taxa.tpl", rows= 8 , cols = 21, 
@@ -278,6 +280,9 @@ server <- function(input, output) {
                                establishment = input$establishment,
                                suggestion.distance = input$distance,
                                parse = input$parse)
+    if (input$domain) {
+      processed.list <- get_domains(processed.list)
+    }
     processed.list
   })
   output$contents <- DT::renderDataTable({
@@ -350,7 +355,8 @@ server <- function(input, output) {
                                   suggest.names = input$suggest.tpl,
                                   apg.families = input$apg,
                                   suggestion.distance = input$distance.tpl,
-                                  return.synonyms = input$get.synonyms.tpl
+                                  return.synonyms = input$get.synonyms.tpl,
+                                  parse = input$parse.tpl
     )
     processed.list.tpl
   })
