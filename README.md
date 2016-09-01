@@ -13,7 +13,7 @@ devtools::install_github("gustavobio/flora")
 install.packages("shiny")
 install.packages("DT")
 install.packages("shinydashboard")
-library("shiny"
+library("shiny")
 download.file("https://raw.githubusercontent.com/gustavobio/plantminer/master/app.R", paste0(tempdir(), "app.R"))
 runApp(paste0(tempdir(), "app.R"), launch.browser = TRUE)
 ```
