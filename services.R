@@ -2,16 +2,16 @@ library(flora)
 library(tpl)
 
 #' @get /tpl
-get.tpl <- function(taxon) {
-  results <- tpl.get(taxon)
+get.tpl <- function(taxon, suggestion_distance = 0.9) {
+  results <- tpl.get(taxon, suggestion.distance = suggestion_distance)
   # Without this the returned json object omits fields with NAs
   results[is.na(results)] <- ""
   results
 }
 
 #' @get /flora
-get.flora <- function(taxon) {
-  results <- get.taxa(taxon)
+get.flora <- function(taxon, suggestion_distance = 0.9) {
+  results <- get.taxa(taxon, suggestion.distance = suggestion_distance)
   results[is.na(results)] <- ""
   results
 }
