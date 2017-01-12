@@ -23,7 +23,7 @@ p_results <- p(
   ", which is the source of all data used here. Please cite them accordingly.",
   "Threat statuses are determined by", 
   tags$a("CNC Flora", href = "http://cncflora.jbrj.gov.br"), 
-  "and follow the IUCN convention.", tags$strong("Dataset last updated on 21st Feb 2016.")
+  "and follow the IUCN convention.", tags$strong("Dataset last updated on 12th Jan 2017.")
 )
 
 p_taxa_tpl <- p(
