@@ -4,8 +4,6 @@ library(tpl)
 library(shinydashboard)
 library(DT)
 
-# Paragraphs
-# Don't think I need to paste text here
 p_suggestion <- p(
   paste("How conservative the name guessing should be?", 
         "Lower values are less conservative and may result in", 
